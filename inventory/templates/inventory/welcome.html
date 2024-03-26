@@ -1,0 +1,30 @@
+{% extends "./base.html" %} {% load static %} {% block content %}
+
+<!-- Introduction section -->
+
+<section class="py-4 text-center container">
+  <div class="row py-lg-5">
+    <div class="col-lg-6 col-md-8 mx-auto">
+      <h4>Welcome..</h4>
+      <br />
+      {% if not user.is_authenticated %}
+      <p class="lead text-muted">We were waiting you.</p>
+      <a
+        class="btn btn-primary navbar-btn text-white mb-2"
+        type="button"
+        href="{% url 'my-login' %}"
+      >
+        Login
+      </a>
+
+      {% endif %}
+
+      <img
+        src="{% static 'images/fox.jpg'%}"
+        alt="Welcome fox"
+        class="img-thumbnail"
+      />
+    </div>
+  </div>
+</section>
+{% endblock %}

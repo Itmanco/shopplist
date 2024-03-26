@@ -1,0 +1,12 @@
+.text-responsive-table {
+  font-size: calc(25% + 1vw + 1vh);
+}
+
+.table_lists_item {
+  text-align: center;
+  padding-top: 3%;
+}
+
+.table_lists_item_name {
+  padding-top: 3%;
+}

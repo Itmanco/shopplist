@@ -88,7 +88,7 @@ def user_logout(request):
     
     #auth.logout(request)
 
-    return redirect('inventory')
+    return redirect('welcome')
 
 
 def my_login(request):

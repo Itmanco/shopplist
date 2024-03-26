@@ -14,7 +14,23 @@ class ItemsList(models.Model):
     
     def get_absolute_url(self):
         return reverse('items-lists', args=[self.slug])
+
+    def get_balance(self):
+        allItems = ItemsList.objects
+        # print(allItems)
+        return 12536.5
     
+    def get_items_len(self):
+        allItems = ItemsList.objects
+        # print(allItems)
+        return 8
+
+    def get_guests_len(self):
+        allItems = ItemsList.objects
+        # print(allItems)
+        return 2
+    
+
 class Item(models.Model):
     itemsList = models.ForeignKey(ItemsList, related_name='item', on_delete=models.CASCADE, null=True)
     title = models.CharField(max_length=250)

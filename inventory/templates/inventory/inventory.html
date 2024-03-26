@@ -2,29 +2,24 @@
 
 <!-- Introduction section -->
 
-<section class="py-4 text-center container">
-  <div class="row py-lg-5">
-    <div class="col-lg-6 col-md-8 mx-auto">
-      <h4>Welcome..</h4>
-      <br />
-      {% if not user.is_authenticated %}
-      <p class="lead text-muted">We were waiting you.</p>
-      <a
-        class="btn btn-primary navbar-btn text-white mb-2"
-        type="button"
-        href="{% url 'my-login' %}"
-      >
-        Login
-      </a>
-
-      {% endif %}
-
-      <img
-        src="{% static 'images/fox.jpg'%}"
-        alt="Welcome fox"
-        class="img-thumbnail"
-      />
+<main>
+  <div class="container pt-5 justify-content-center text-responsive-table">
+    <div class="row fw-bold">
+      <div class="col-5">NAME</div>
+      <div class="col-3 text-center">BALANCE</div>
+      <div class="col-2 text-center">ITEMS</div>
+      <div class="col-2 text-center">GUESTS</div>
+    </div>
+    <div class="row">
+      {% for item in my_Lists %}
+      <div class="col-5 table_lists_item_name">{{item.name|capfirst}}</div>
+      <div class="col-3 table_lists_item">
+        {{item.get_balance|floatformat:"2g"}}
+      </div>
+      <div class="col-2 table_lists_item">{{item.get_items_len}}</div>
+      <div class="col-2 table_lists_item">{{item.get_guests_len}}</div>
+      {% endfor %}
     </div>
   </div>
-</section>
+</main>
 {% endblock %}
