@@ -12,9 +12,11 @@
     </div>
     <div class="row">
       {% for item in my_Lists %}
-      <div class="col-5 table_lists_item_name">{{item.name|capfirst}}</div>
+      <div class="col-5 table_lists_item_name">
+        <a href="{{item.get_absolute_url}}">{{item.name|capfirst}}</a>
+      </div>
       <div class="col-3 table_lists_item">
-        {{item.get_balance|floatformat:"2g"}}
+        ¥{{item.get_balance|floatformat:"-3g"}}
       </div>
       <div class="col-2 table_lists_item">{{item.get_items_len}}</div>
       <div class="col-2 table_lists_item">{{item.get_guests_len}}</div>
