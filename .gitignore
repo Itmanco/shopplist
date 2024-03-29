@@ -1,1 +1,9 @@
 db.sqlite3
+*.env
+/inventory/__pycache__
+/inventory/migrations
+/account/__pycache__
+/account/migrations
+/shoppingList/__pycache__
+/shoppingList/migrations
+/static/media/images
