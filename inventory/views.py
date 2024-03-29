@@ -51,6 +51,16 @@ class CreateItem(LoginRequiredMixin,generic.CreateView):
         self.object.save()
         return super().form_valid(form)
 
+class UpdateItem(LoginRequiredMixin, generic.UpdateView):
+    model = Item
+    template_name = 'inventory/item-update.html'
+    fields = ['title','brand', 'description','price','image','webPage','store']
+
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        print(type(self.kwargs.get('pk')))
+        return queryset.filter(id=int(self.kwargs.get('pk')))
+
 @login_required(login_url='my-login')
 def DeleteItem(request, itempk,list_slug):
     print('-->',itempk,list_slug)
