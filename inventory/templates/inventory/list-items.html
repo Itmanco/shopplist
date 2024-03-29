@@ -1,21 +1,38 @@
 {% extends "./base.html" %} {% load static %} {% block content %}
 
 <!-- Introduction section -->
-
+<!-- prettier-ignore -->
 <main>
-  <div class="container pt-5 justify-content-center text-responsive-table">
+  <div class="container pt-5 justify-content-center text-responsive-list">
     <div class="d-flex justify-content-around fw-bold pb-2">
       <div class="col-5"><h2>{{itemsList.name}}</h2></div>
       <div class="col-5 d-flex justify-content-end">
-        <a href="{% url 'create_item' itemsList.pk %}" class="btn btn-outline-secondary">
-          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-file-earmark-plus" viewBox="0 0 16 16">
+        <a href="{% url 'create_item' itemsList.pk %}"
+          class="btn btn-outline-secondary">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-file-earmark-plus"
+            viewBox="0 0 16 16">
             <path d="M8 6.5a.5.5 0 0 1 .5.5v1.5H10a.5.5 0 0 1 0 1H8.5V11a.5.5 0 0 1-1 0V9.5H6a.5.5 0 0 1 0-1h1.5V7a.5.5 0 0 1 .5-.5"/>
-            <path d="M14 4.5V14a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2h5.5zm-3 0A1.5 1.5 0 0 1 9.5 3V1H4a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V4.5z"/>
-          </svg>  Add
+            <path d="M14 4.5V14a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2h5.5zm-3 0A1.5 1.5 0 0 1 9.5 3V1H4a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V4.5z" />
+          </svg>
+          Add
         </a>
       </div>
     </div>
-    <div class="row  justify-content-center">
+    <div class="row d-flex justify-content-center">
+      <div class="col-6">
+        <p>
+          Balance:
+          <span class="badge text-bg-light"
+            >¥{{balance|floatformat:"-3g"}}
+          </span>
+        </p>
+      </div>
+      <div class="col-4">
+        <p>Items: <span class="badge text-bg-light">{{itemsLen}}</span></p>
+      </div>
+    </div>
+    <!-- carousel start -->
+    <!-- <div class="row justify-content-center">
       <div class="col-10">
         <div id="carouselT" class="carousel carousel-dark slide">
           <div class="carousel-inner">
@@ -25,14 +42,12 @@
                 {% else %}
                 <div class="carousel-item">
                 {% endif %}
-
                     <div class="card mb-3 text-center">
                         <img src="{{item.image.url}}" class="card-img-top" alt="{{item.title}}">
                         <div class="card-body">
                         <h2 class="card-title">{{item.title}}</h2>
                         <p class="card-text">{{item.description}}</p>
-                        <p class="card-text"><small class="text-body-secondary">Price:  ¥{{item.price|floatformat:"-3g"}}</small></p>
-                        
+                        <p class="card-text"><small class="text-body-secondary">Price:  ¥{{item.price|floatformat:"-3g"}}</small></p>                        
                         </div>
                     </div>    
                 </div>
@@ -58,6 +73,91 @@
           </button>
         </div>
       </div>
+    </div> -->
+    
+    <div class="row list_group_title_row">
+      <div class="col list_item_first"><h6 class="item__title">Name</h6></div>
+      <div class="col list_item_second"><h6 class="item__title">Description</h6></div>
+      <div class="col list_item_third"><h6 class="item__title">Price</h6></div>
+    </div>
+   
+      {% for item in items %}
+
+      <!-- version without collapse -->
+      <!-- <ul class="list-group list-group-horizontal" data-id="{{item.id}}">
+        <li class="list-group-item list_item_image">
+          <img src="{{item.image.url}}" class="list_image" />
+        </li>
+        <li class="list-group-item list_item_first">
+          <h6 class="item__title">{{item.title}}</h6>
+          <p>{{item.description}}</p>
+        </li>
+        <li class="list-group-item list_item_second fs-10">
+          <p>Price: &nbsp;¥{{item.price|floatformat:"-3g"}}</p>
+          <p>Store: &nbsp;{{item.store}}</p>
+          <p>Brand: &nbsp;{{item.brand}}</p>
+          {% if item.webPage != '' %}
+          <a
+            href="{{item.webPage}}"
+            class="btn btn-outline-secondary btn_list_item"
+            >Link</a
+          >
+          {% endif %}
+        </li>
+      </ul> -->
+
+      <!-- version with collapse -->
+
+      <a style="text-decoration: none;" data-bs-toggle="collapse" href="#collapseItem{{item.id}}" role="button" aria-expanded="false" aria-controls="collapseItem{{item.id}}">
+        <ul class="list-group list-group-horizontal">
+          <li class="list-group-item list_item_first">
+            <p>{{item.title}}</p>
+          </li>
+          <li class="list-group-item list_item_second">
+            <p>{{item.description|truncatechars:40}}</p>
+          </li>
+          <li class="list-group-item list_item_third">
+            <p>¥{{item.price|floatformat:"-3g"}}</p>
+          </li>
+        </ul>
+      </a>
+      <div class="collapse" id="collapseItem{{item.id}}"">
+        <div class="card card-body">
+          <div class="row">
+            <div class="col-6">
+              <a href="{{item.image.url}}"><img src="{{item.image.url}}" class="list_image" /></a>
+              <p>{{item.description}}</p>
+            </div>            
+            <div class="col-6">
+              <p>Price: &nbsp;¥{{item.price|floatformat:"-3g"}}</p>
+              <p>Store: &nbsp;{{item.store}}</p>
+              <p>Brand: &nbsp;{{item.brand}}</p>
+              {% if item.webPage != '' %}
+              <a
+                href="{{item.webPage}}"
+                class="btn btn-outline-secondary btn_list_item"
+                >Link</a
+              >
+              {% endif %}
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-3 btn-group">
+              <a href="#" class="btn btn-outline-primary btn_item_CRUD">Update</a>
+              <a href="{% url 'delete_item' itempk=item.id list_slug=itemsList.slug %}" onclick="return confirm('Do you want to delete {{item.title}}')" class="btn btn-outline-primary btn_item_CRUD">Delete</a>
+            </div>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+
+    <div class="col-5 pt-2">
+      <a onClick="javascript:history.go(-1);" class="btn btn-outline-secondary">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-return-left"
+          viewBox="0 0 16 16">
+          <path fill-rule="evenodd" d="M14.5 1.5a.5.5 0 0 1 .5.5v4.8a2.5 2.5 0 0 1-2.5 2.5H2.707l3.347 3.346a.5.5 0 0 1-.708.708l-4.2-4.2a.5.5 0 0 1 0-.708l4-4a.5.5 0 1 1 .708.708L2.707 8.3H12.5A1.5 1.5 0 0 0 14 6.8V2a.5.5 0 0 1 .5-.5"/>
+        </svg>&nbsp;Back</a>
     </div>
   </div>
 </main>
