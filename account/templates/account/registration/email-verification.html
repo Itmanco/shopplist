@@ -1,6 +1,4 @@
-<!-- prettier-ignore -->
-{% include "inventory/base.html" %} 
-Hi, Thank you for registering on our
+{% include "inventory/base.html" %} Hi, Thank you for registering on our
 website. Please be so kind as to verify your email by clicking the link below:
 https://{{domain}}{% url 'email-verification' uidb64=uid token=token %} {%
 endautoescape %}
