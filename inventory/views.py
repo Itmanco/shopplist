@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from . models import ItemsList, Item
-from .forms import ItemForm
+from .forms import ItemForm, ListitemForm
 from django.shortcuts import get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -19,6 +19,7 @@ def inventory(request):
 
 @login_required(login_url='my-login')
 def list_items(request, list_slug):
+    print('At list_items!!')
     itemsList = get_object_or_404(ItemsList, slug=list_slug)
     # context information
     items = Item.objects.filter(itemsList=itemsList)
@@ -34,6 +35,7 @@ def item_info(request, slug):
     context = {'item':item}
     return render(request, 'inventory/item-info.html', context)
 
+
 class CreateItem(LoginRequiredMixin,generic.CreateView):
     model = Item
     form_class = ItemForm
@@ -48,6 +50,18 @@ class CreateItem(LoginRequiredMixin,generic.CreateView):
         self.object = form.save(commit=False)
         itemsList = ItemsList.objects.get(id=self.kwargs.get('hpk'))
         self.object.itemsList = itemsList
+        self.object.save()
+        return super().form_valid(form)
+
+
+class CreateList(LoginRequiredMixin,generic.CreateView):
+    model = ItemsList
+    form_class = ListitemForm
+    template_name = 'inventory/listitem-form.html'
+
+    def form_valid(self, form):
+        self.object = form.save(commit=False)
+        self.object.user = self.request.user
         self.object.save()
         return super().form_valid(form)
 

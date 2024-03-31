@@ -7,3 +7,4 @@ db.sqlite3
 /shoppingList/__pycache__
 /shoppingList/migrations
 /static/media/images
+/shoppingList/settings.py

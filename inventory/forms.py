@@ -1,5 +1,5 @@
 from django import forms
-from .models import Item
+from .models import Item, ItemsList
 
 from django.contrib.auth import get_user_model
 
@@ -27,3 +27,16 @@ class ItemForm(forms.ModelForm):
         self.fields['image'].label = "Image"
         self.fields['price'].label = "Price"
         self.fields['webPage'].label = "Web page"
+
+class ListitemForm(forms.ModelForm):
+    class Meta:
+        model = ItemsList
+        fields = ('name',)
+
+    widgets = {
+        'name': forms.Textarea(attrs={'class': 'form-control'})
+    }
+
+    def __init__(self, *args, **kwargs):
+        super(ListitemForm, self).__init__(*args, **kwargs)
+        self.fields['name'].label = "Name"

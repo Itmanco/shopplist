@@ -7,20 +7,16 @@
 <!-- Introduction section -->
 
 <main>
-  <div class="container pt-4 justify-content-center text-responsive-table">
+  <div class="container pt-5 justify-content-center text-responsive-table">
     <div class="row">
-      <div class="col-5"><h2>New Item</h2></div>
+      <div class="col-5"><h2>New List</h2></div>
       <hr />
-    </div>
-    <div class="row">
-      <div class="col-5">{{item.title}}</div>
-      <br />
     </div>
     <div class="row">
       <div class="col-11">
         <form
           id="itemForm"
-          action="{% url 'create_item' listItems_id %}"
+          action="{% url 'create_list' %}"
           method="post"
           enctype="multipart/form-data"
         >
@@ -28,7 +24,7 @@
           {% csrf_token %} 
           {% bootstrap_form form %} 
           {{form.media}}
-          <input type="submit" value="Add" class="btn btn-primary btn-large" />
+          <input type="submit" value="Save" class="btn btn-primary btn-large" />
         </form>
       </div>
     </div>
