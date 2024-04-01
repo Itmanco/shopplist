@@ -5,9 +5,10 @@ from django.contrib.auth import get_user_model
 
 User = get_user_model()
 
+
 class ItemsList(models.Model):
     name = models.CharField(max_length=250, db_index=True)
-    slug = models.SlugField(max_length=255)
+    slug = models.SlugField(max_length=255, unique=True)
     user = models.ForeignKey(User, related_name='userlists', on_delete=models.CASCADE)
 
     # class Meta:
@@ -17,7 +18,7 @@ class ItemsList(models.Model):
         return self.name
 
     def save(self, *args, **kwargs):
-        self.slug = slugify(self.name)
+        self.slug = self.get_slug()
         super().save(*args, **kwargs)
 
     def get_items_url(self):
@@ -49,6 +50,17 @@ class ItemsList(models.Model):
 
     def get_guests_len(self):
         return 0
+
+    def get_slug(self):
+        slug = slugify(self.name)
+        unique_slug = slug
+
+        number = 1
+        while ItemsList.objects.filter(slug=unique_slug).exists():
+            unique_slug = f'{slug}-{number}'
+            number += 1
+
+        return unique_slug
     
 
 class Item(models.Model):
@@ -56,7 +68,7 @@ class Item(models.Model):
     title = models.CharField(max_length=100)
     brand = models.CharField(max_length=100)
     description = models.TextField(max_length=250,blank=True)
-    slug = models.SlugField(max_length=255)
+    slug = models.SlugField(max_length=255, unique=True)
     price = models.DecimalField(max_digits=7, decimal_places=2, default=0)
     image = models.ImageField(upload_to='images/')
     webPage = models.URLField(max_length=100, blank=True, default='http://')
@@ -69,9 +81,22 @@ class Item(models.Model):
     def __str__(self):
         return self.title
 
+    def get_slug(self):
+        slug = slugify(self.title)
+        unique_slug = slug
+
+        number = 1
+        while Item.objects.filter(slug=unique_slug).exists():
+            unique_slug = f'{slug}-{number}'
+            number += 1
+
+        return unique_slug
+    
+
     def save(self, *args, **kwargs):
-        self.slug = slugify(self.title)
+        self.slug = self.get_slug()
         super().save(*args, **kwargs)
+
     
     def get_absolute_url(self):
         return reverse('list-items', kwargs={'list_slug': self.itemsList.slug})

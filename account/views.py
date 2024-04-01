@@ -147,7 +147,7 @@ def delete_account(request):
 
         messages.error(request,"Account deleted.")
 
-        return redirect('store')
+        return redirect('welcome')
 
     return render(request, 'account/delete-account.html')
 

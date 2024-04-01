@@ -5,10 +5,10 @@
 <main>
   <div class="container pt-5 justify-content-center text-responsive-list">
     <div class="d-flex justify-content-around fw-bold pb-2">
-      <div class="col-5"><h2>{{itemsList.name}}</h2></div>
-      <div class="col-5 d-flex justify-content-end">
+      <div class="col-8"><h2>{{itemsList.name}}</h2></div>
+      <div class="col-4 d-flex justify-content-end">
         <a href="{% url 'create_item' itemsList.pk %}"
-          class="btn btn-outline-secondary">
+          class="btn btn-outline-secondary" style="height: 40px;">
           <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-file-earmark-plus"
             viewBox="0 0 16 16">
             <path d="M8 6.5a.5.5 0 0 1 .5.5v1.5H10a.5.5 0 0 1 0 1H8.5V11a.5.5 0 0 1-1 0V9.5H6a.5.5 0 0 1 0-1h1.5V7a.5.5 0 0 1 .5-.5"/>
@@ -126,16 +126,15 @@
 
 
       <!-- bought items list -->
-      {% if itemsLen > 0 %}
+      {% if boughtItemsLen > 0 %}
       <hr>
-      {% endif %}
       <a style="text-decoration: none;" data-bs-toggle="collapse" href="#collapseBoughtItems" role="button" aria-expanded="false" aria-controls="collapseBoughtItems">
         <ul class="list-group list-group-horizontal">
           <li class="list-group-item flex-fill">
-            <p>Spent: ¥{{spent|floatformat:"-3g"}}</p>
+            <p>Spent: &nbsp;¥{{spent|floatformat:"-3g"}}</p>
           </li>
           <li class="list-group-item flex-fill">
-            <p>purchased: {{boughtItemsLen}}</p>
+            <p>purchased: &nbsp;{{boughtItemsLen}}</p>
           </li>
         </ul>
       </a>
@@ -179,7 +178,7 @@
           </div>
           <div class="row">
             <div class="col-2 btn-group">
-              <a href="{% url 'mark_bought_item' itempk=item.id list_slug=itemsList.slug %}" onclick="return confirm('Do you want return {{item.title}} to your shooping list?')" class="btn btn-outline-primary btn_item_CRUD">Return</a>
+              <a href="{% url 'return_item' itempk=item.id list_slug=itemsList.slug %}" onclick="return confirm('Do you want return {{item.title}} to your shooping list?')" class="btn btn-outline-primary btn_item_CRUD">Return</a>
               <a href="{% url 'update_item' pk=item.id %}" class="btn btn-outline-primary btn_item_CRUD">Update</a>
               <a href="{% url 'delete_item' itempk=item.id list_slug=itemsList.slug %}" onclick="return confirm('Do you want to delete {{item.title}}')" class="btn btn-outline-primary btn_item_CRUD">Delete</a>
             </div>
@@ -187,17 +186,27 @@
         </div>
       </div>
       {% endfor %}
+      {% endif %}
 
     </div>
 
-
-    <div class="col-5 pt-2">
-      <a href="{% url 'inventory' %}" class="btn btn-outline-secondary">
-        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-return-left"
-          viewBox="0 0 16 16">
-          <path fill-rule="evenodd" d="M14.5 1.5a.5.5 0 0 1 .5.5v4.8a2.5 2.5 0 0 1-2.5 2.5H2.707l3.347 3.346a.5.5 0 0 1-.708.708l-4.2-4.2a.5.5 0 0 1 0-.708l4-4a.5.5 0 1 1 .708.708L2.707 8.3H12.5A1.5 1.5 0 0 0 14 6.8V2a.5.5 0 0 1 .5-.5"/>
-        </svg>&nbsp;Back</a>
+    <div class="row  pt-2">
+      <div class="col-6">
+        <a href="{% url 'inventory' %}" class="btn btn-outline-secondary">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-return-left"
+            viewBox="0 0 16 16">
+            <path fill-rule="evenodd" d="M14.5 1.5a.5.5 0 0 1 .5.5v4.8a2.5 2.5 0 0 1-2.5 2.5H2.707l3.347 3.346a.5.5 0 0 1-.708.708l-4.2-4.2a.5.5 0 0 1 0-.708l4-4a.5.5 0 1 1 .708.708L2.707 8.3H12.5A1.5 1.5 0 0 0 14 6.8V2a.5.5 0 0 1 .5-.5"/>
+          </svg>&nbsp;Back</a>        
+      </div>
+      <div class="col-6 d-flex justify-content-end">
+        <a href="{% url 'delete_list' list_slug=itemsList.slug %}" onclick="return confirm('you are about to delete the {{itemsList.name}} list, do you want to continue?')" class="btn btn-outline-warning">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
+            <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0z"/>
+            <path d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4zM2.5 3h11V2h-11z"/>
+          </svg>&nbsp;Delete</a>
+      </div>
     </div>
+    
   </div>
 </main>
 {% endblock %}

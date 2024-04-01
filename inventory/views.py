@@ -6,6 +6,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views import generic
 from django.urls import reverse_lazy
+import os
 
 
 def welcome(request):
@@ -16,7 +17,7 @@ def inventory(request):
     all_Lists = ItemsList.objects.filter(user=request.user)
     context = {
         'my_Lists':all_Lists
-        }
+    }
     return render(request, 'inventory/inventory.html', context=context)
 
 @login_required(login_url='my-login')
@@ -69,14 +70,33 @@ class UpdateItem(LoginRequiredMixin, generic.UpdateView):
 
     def get_queryset(self):
         queryset = super().get_queryset()
-        print(type(self.kwargs.get('pk')))
         return queryset.filter(id=int(self.kwargs.get('pk')))
 
 @login_required(login_url='my-login')
-def DeleteItem(request, itempk,list_slug):
+def DeleteList(request,list_slug):
+    # Delete items images
+    items =  list(Item.objects.filter(itemsList__slug=list_slug))
+    for item in items:
+        imageloc = item.image.path
+        if os.path.isfile(imageloc):
+             os.remove(imageloc)
     # Delete Item
-    itemsList = ItemsList.objects.get(slug=list_slug)
-    Item.objects.filter(id=itempk).delete()
+    ItemsList.objects.filter(slug=list_slug).delete()
+    all_Lists = ItemsList.objects.filter(user=request.user)
+    context = {
+        'my_Lists':all_Lists
+    }
+    return render(request, 'inventory/inventory.html', context=context)
+
+@login_required(login_url='my-login')
+def DeleteItem(request, itempk,list_slug):
+    # Delete image
+    item =  Item.objects.get(id=itempk)
+    imageloc = item.image.path
+    if os.path.isfile(imageloc):
+        os.remove(imageloc)
+    # Delete Item
+    Item.objects.filter(id=itempk).delete()   
 
     context = _listViewContext(list_slug)    
              
@@ -89,6 +109,18 @@ def MarkBoughtItem(request, itempk,list_slug):
     item = Item.objects.filter(id=itempk)
 
     item.update(bought = 'True')  
+
+    context = _listViewContext(list_slug)    
+             
+    return render(request, 'inventory/list-items.html', context)
+
+@login_required(login_url='my-login')
+def ReturnItemToList(request, itempk,list_slug):
+    # update Item
+    itemsList = ItemsList.objects.get(slug=list_slug)
+    item = Item.objects.filter(id=itempk)
+
+    item.update(bought = 'False')  
 
     context = _listViewContext(list_slug)    
              
