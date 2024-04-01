@@ -10,4 +10,5 @@ urlpatterns = [
     path('item/newitem/<hpk>', views.CreateItem.as_view(), name='create_item'),
     path('item/update/<int:pk>', views.UpdateItem.as_view(), name='update_item'),
     path('item/delete/<int:itempk>/<slug:list_slug>/', views.DeleteItem, name='delete_item'),
+    path('item/bought/<int:itempk>/<slug:list_slug>/', views.MarkBoughtItem, name='mark_bought_item'),
 ]

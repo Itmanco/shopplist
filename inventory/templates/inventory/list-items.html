@@ -19,16 +19,12 @@
       </div>
     </div>
     <div class="row d-flex justify-content-center">
-      <div class="col-6">
-        <p>
-          Balance:
-          <span class="badge text-bg-light"
-            >¥{{balance|floatformat:"-3g"}}
-          </span>
-        </p>
+      <div class="col-6 mb-2">
+        <p>Balance:<span class="badge text-bg-light">¥{{balance|floatformat:"-3g"}}</span></p>
       </div>
-      <div class="col-4">
+      <div class="col-5">
         <p>Items: <span class="badge text-bg-light">{{itemsLen}}</span></p>
+        <!-- <p>purchased: <span class="badge text-bg-light">{{boughtItemsLen}}</span></p> -->
       </div>
     </div>
     <!-- carousel start -->
@@ -82,30 +78,6 @@
     </div>
    
       {% for item in items %}
-
-      <!-- version without collapse -->
-      <!-- <ul class="list-group list-group-horizontal" data-id="{{item.id}}">
-        <li class="list-group-item list_item_image">
-          <img src="{{item.image.url}}" class="list_image" />
-        </li>
-        <li class="list-group-item list_item_first">
-          <h6 class="item__title">{{item.title}}</h6>
-          <p>{{item.description}}</p>
-        </li>
-        <li class="list-group-item list_item_second fs-10">
-          <p>Price: &nbsp;¥{{item.price|floatformat:"-3g"}}</p>
-          <p>Store: &nbsp;{{item.store}}</p>
-          <p>Brand: &nbsp;{{item.brand}}</p>
-          {% if item.webPage != '' %}
-          <a
-            href="{{item.webPage}}"
-            class="btn btn-outline-secondary btn_list_item"
-            >Link</a
-          >
-          {% endif %}
-        </li>
-      </ul> -->
-
       <!-- version with collapse -->
 
       <a style="text-decoration: none;" data-bs-toggle="collapse" href="#collapseItem{{item.id}}" role="button" aria-expanded="false" aria-controls="collapseItem{{item.id}}">
@@ -121,7 +93,7 @@
           </li>
         </ul>
       </a>
-      <div class="collapse" id="collapseItem{{item.id}}"">
+      <div class="collapse" id="collapseItem{{item.id}}">
         <div class="card card-body">
           <div class="row">
             <div class="col-6">
@@ -142,7 +114,72 @@
             </div>
           </div>
           <div class="row">
-            <div class="col-3 btn-group">
+            <div class="col-2 btn-group">
+              <a href="{% url 'mark_bought_item' itempk=item.id list_slug=itemsList.slug %}" onclick="return confirm('Do you want to Mark {{item.title}} as bought?')" class="btn btn-outline-primary btn_item_CRUD">Bought</a>
+              <a href="{% url 'update_item' pk=item.id %}" class="btn btn-outline-primary btn_item_CRUD">Update</a>
+              <a href="{% url 'delete_item' itempk=item.id list_slug=itemsList.slug %}" onclick="return confirm('Do you want to delete {{item.title}}?')" class="btn btn-outline-primary btn_item_CRUD">Delete</a>
+            </div>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+
+
+      <!-- bought items list -->
+      {% if itemsLen > 0 %}
+      <hr>
+      {% endif %}
+      <a style="text-decoration: none;" data-bs-toggle="collapse" href="#collapseBoughtItems" role="button" aria-expanded="false" aria-controls="collapseBoughtItems">
+        <ul class="list-group list-group-horizontal">
+          <li class="list-group-item flex-fill">
+            <p>Spent: ¥{{spent|floatformat:"-3g"}}</p>
+          </li>
+          <li class="list-group-item flex-fill">
+            <p>purchased: {{boughtItemsLen}}</p>
+          </li>
+        </ul>
+      </a>
+      <div class="collapse" id="collapseBoughtItems">
+      
+      {% for item in boughtItems %}
+      <!-- version with collapse -->
+
+      <a style="text-decoration: none;" data-bs-toggle="collapse" href="#collapseItem{{item.id}}" role="button" aria-expanded="false" aria-controls="collapseItem{{item.id}}">
+        <ul class="list-group list-group-horizontal">
+          <li class="list-group-item list_item_first">
+            <p>{{item.title}}</p>
+          </li>
+          <li class="list-group-item list_item_second">
+            <p>{{item.description|truncatechars:40}}</p>
+          </li>
+          <li class="list-group-item list_item_third">
+            <p>¥{{item.price|floatformat:"-3g"}}</p>
+          </li>
+        </ul>
+      </a>
+      <div class="collapse" id="collapseItem{{item.id}}">
+        <div class="card card-body">
+          <div class="row">
+            <div class="col-6">
+              <a href="{{item.image.url}}"><img src="{{item.image.url}}" class="list_image" /></a>
+              <p>{{item.description}}</p>
+            </div>            
+            <div class="col-6">
+              <p>Price: &nbsp;¥{{item.price|floatformat:"-3g"}}</p>
+              <p>Store: &nbsp;{{item.store}}</p>
+              <p>Brand: &nbsp;{{item.brand}}</p>
+              {% if item.webPage != '' %}
+              <a
+                href="{{item.webPage}}"
+                class="btn btn-outline-secondary btn_list_item"
+                >Link</a
+              >
+              {% endif %}
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-2 btn-group">
+              <a href="{% url 'mark_bought_item' itempk=item.id list_slug=itemsList.slug %}" onclick="return confirm('Do you want return {{item.title}} to your shooping list?')" class="btn btn-outline-primary btn_item_CRUD">Return</a>
               <a href="{% url 'update_item' pk=item.id %}" class="btn btn-outline-primary btn_item_CRUD">Update</a>
               <a href="{% url 'delete_item' itempk=item.id list_slug=itemsList.slug %}" onclick="return confirm('Do you want to delete {{item.title}}')" class="btn btn-outline-primary btn_item_CRUD">Delete</a>
             </div>
@@ -150,10 +187,12 @@
         </div>
       </div>
       {% endfor %}
+
     </div>
 
+
     <div class="col-5 pt-2">
-      <a onClick="javascript:history.go(-1);" class="btn btn-outline-secondary">
+      <a href="{% url 'inventory' %}" class="btn btn-outline-secondary">
         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-return-left"
           viewBox="0 0 16 16">
           <path fill-rule="evenodd" d="M14.5 1.5a.5.5 0 0 1 .5.5v4.8a2.5 2.5 0 0 1-2.5 2.5H2.707l3.347 3.346a.5.5 0 0 1-.708.708l-4.2-4.2a.5.5 0 0 1 0-.708l4-4a.5.5 0 1 1 .708.708L2.707 8.3H12.5A1.5 1.5 0 0 0 14 6.8V2a.5.5 0 0 1 .5-.5"/>

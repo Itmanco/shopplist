@@ -20,7 +20,7 @@
       <div class="col-5">NAME</div>
       <div class="col-3 text-center">BALANCE</div>
       <div class="col-2 text-center">ITEMS</div>
-      <div class="col-2 text-center">GUESTS</div>
+      <div class="col-2 text-center">SPENT</div>
     </div>
     <div class="row">
       {% for item in my_Lists %}
@@ -31,7 +31,7 @@
         ¥{{item.get_balance|floatformat:"-3g"}}
       </div>
       <div class="col-2 table_lists_item">{{item.get_items_len}}</div>
-      <div class="col-2 table_lists_item">{{item.get_guests_len}}</div>
+      <div class="col-2 table_lists_item">¥{{item.get_spent|floatformat:"-3g"}}</div>
       {% endfor %}
     </div>
   </div>

@@ -14,20 +14,17 @@ def welcome(request):
 @login_required(login_url='my-login')
 def inventory(request):
     all_Lists = ItemsList.objects.filter(user=request.user)
-    context = {'my_Lists':all_Lists}
+    context = {
+        'my_Lists':all_Lists
+        }
     return render(request, 'inventory/inventory.html', context=context)
 
 @login_required(login_url='my-login')
 def list_items(request, list_slug):
-    print('At list_items!!')
-    itemsList = get_object_or_404(ItemsList, slug=list_slug)
-    # context information
-    items = Item.objects.filter(itemsList=itemsList)
-    itemsLen = len(items);
-    balance = sum(items.values_list("price", flat=True))
-    
+
+    context = _listViewContext(list_slug)    
              
-    return render(request, 'inventory/list-items.html', {'itemsList':itemsList, 'items':items, 'balance':balance,'itemsLen':itemsLen})
+    return render(request, 'inventory/list-items.html', context)
 
 @login_required(login_url='my-login')
 def item_info(request, slug):
@@ -77,15 +74,42 @@ class UpdateItem(LoginRequiredMixin, generic.UpdateView):
 
 @login_required(login_url='my-login')
 def DeleteItem(request, itempk,list_slug):
-    print('-->',itempk,list_slug)
     # Delete Item
     itemsList = ItemsList.objects.get(slug=list_slug)
     Item.objects.filter(id=itempk).delete()
 
-    # context information
-    items = Item.objects.filter(itemsList=itemsList)
-    itemsLen = len(items);
-    balance = sum(items.values_list("price", flat=True))
-    
+    context = _listViewContext(list_slug)    
              
-    return render(request, 'inventory/list-items.html', {'itemsList':itemsList, 'items':items, 'balance':balance,'itemsLen':itemsLen})
+    return render(request, 'inventory/list-items.html', context)
+
+@login_required(login_url='my-login')
+def MarkBoughtItem(request, itempk,list_slug):
+    # update Item
+    itemsList = ItemsList.objects.get(slug=list_slug)
+    item = Item.objects.filter(id=itempk)
+
+    item.update(bought = 'True')  
+
+    context = _listViewContext(list_slug)    
+             
+    return render(request, 'inventory/list-items.html', context)
+
+
+    # prepares the list-items view context and return it
+def _listViewContext(list_slug):
+    itemsList = get_object_or_404(ItemsList, slug=list_slug)
+    items = Item.objects.filter(itemsList=itemsList).filter(bought='False')
+    boughtItems = Item.objects.filter(itemsList=itemsList).filter(bought='True')
+    spent = sum(boughtItems.values_list("price", flat=True))
+    boughtItemsLen = len(boughtItems)
+    itemsLen = len(items)
+    balance = sum(items.values_list("price", flat=True))
+    return {
+        'itemsList':itemsList, 
+        'items':items, 
+        'balance':balance,
+        'itemsLen':itemsLen, 
+        'boughtItems':boughtItems, 
+        'boughtItemsLen':boughtItemsLen,
+        'spent':spent
+        }

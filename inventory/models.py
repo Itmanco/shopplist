@@ -7,7 +7,7 @@ User = get_user_model()
 
 class ItemsList(models.Model):
     name = models.CharField(max_length=250, db_index=True)
-    slug = models.SlugField(max_length=255, unique=True)
+    slug = models.SlugField(max_length=255)
     user = models.ForeignKey(User, related_name='userlists', on_delete=models.CASCADE)
 
     # class Meta:
@@ -27,12 +27,20 @@ class ItemsList(models.Model):
         return reverse('inventory')
 
     def get_balance(self):
-        items = Item.objects.filter(itemsList__id=self.id)
+        items = Item.objects.filter(itemsList__id=self.id).filter(bought='False')
         entry_list = list(items)
         balance = 0
         for item in entry_list:
             balance += item.price
         return balance
+
+    def get_spent(self):
+        items = Item.objects.filter(itemsList__id=self.id).filter(bought='True')
+        entry_list = list(items)
+        spent = 0
+        for item in entry_list:
+            spent += item.price
+        return spent
     
     def get_items_len(self): 
         items = Item.objects.filter(itemsList__id=self.id)
@@ -45,14 +53,15 @@ class ItemsList(models.Model):
 
 class Item(models.Model):
     itemsList = models.ForeignKey(ItemsList, related_name='items', on_delete=models.CASCADE, null=True)
-    title = models.CharField(max_length=250)
-    brand = models.CharField(max_length=250)
-    description = models.TextField(blank=True)
-    slug = models.SlugField(max_length=255, unique=True)
+    title = models.CharField(max_length=100)
+    brand = models.CharField(max_length=100)
+    description = models.TextField(max_length=250,blank=True)
+    slug = models.SlugField(max_length=255)
     price = models.DecimalField(max_digits=7, decimal_places=2, default=0)
     image = models.ImageField(upload_to='images/')
     webPage = models.URLField(max_length=100, blank=True, default='http://')
     store = models.CharField(max_length=100, blank=False)
+    bought = models.CharField(max_length=10, default='False')
 
     # class Meta:
     #     verbose_name_plural = 'items'

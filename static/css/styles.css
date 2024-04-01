@@ -16,7 +16,6 @@ p {
 }
 
 .list-group {
-  padding-right: 0;
   background-color: unset;
   border-width: 1px;
 }
@@ -38,29 +37,20 @@ p {
 
 .list-group-item {
   border-radius: 0px;
-  padding: 0;
-  padding-top: 0.1rem;
   border: 0;
 }
 
 .list_item_first {
-  padding-left: 0.5rem;
   width: calc(30% + 1vw);
 }
 
 .list_item_second {
-  padding-left: 0.5rem;
   width: calc(45% + 1vw);
 }
 
 .list_item_third {
-  padding-left: 0.5rem;
   width: calc(17% + 1vw);
-}
-
-.list_group_title_row {
-  height: 20px;
-  margin-left: 0.1rem;
+  padding-left: 1px;
 }
 
 /* .form__btn__CRUD {
