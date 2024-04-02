@@ -27,50 +27,7 @@
         <!-- <p>purchased: <span class="badge text-bg-light">{{boughtItemsLen}}</span></p> -->
       </div>
     </div>
-    <!-- carousel start -->
-    <!-- <div class="row justify-content-center">
-      <div class="col-10">
-        <div id="carouselT" class="carousel carousel-dark slide">
-          <div class="carousel-inner">
-            {% for item in items %} 
-                {% if forloop.first %} 
-                <div class="carousel-item active">
-                {% else %}
-                <div class="carousel-item">
-                {% endif %}
-                    <div class="card mb-3 text-center">
-                        <img src="{{item.image.url}}" class="card-img-top" alt="{{item.title}}">
-                        <div class="card-body">
-                        <h2 class="card-title">{{item.title}}</h2>
-                        <p class="card-text">{{item.description}}</p>
-                        <p class="card-text"><small class="text-body-secondary">Price:  ¥{{item.price|floatformat:"-3g"}}</small></p>                        
-                        </div>
-                    </div>    
-                </div>
-            {% endfor %}
-          </div>
-          <button
-            class="carousel-control-prev"
-            type="button"
-            data-bs-target="#carouselT"
-            data-bs-slide="prev"
-          >
-            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-            <span class="visually-hidden">Previous</span>
-          </button>
-          <button
-            class="carousel-control-next"
-            type="button"
-            data-bs-target="#carouselT"
-            data-bs-slide="next"
-          >
-            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-            <span class="visually-hidden">Next</span>
-          </button>
-        </div>
-      </div>
-    </div> -->
-    
+   
     <div class="row list_group_title_row">
       <div class="col list_item_first"><h6 class="item__title">Name</h6></div>
       <div class="col list_item_second"><h6 class="item__title">Description</h6></div>
@@ -97,7 +54,14 @@
         <div class="card card-body">
           <div class="row">
             <div class="col-6">
-              <a href="{{item.image.url}}"><img src="{{item.image.url}}" class="list_image" /></a>
+              <div class="list_image">
+                <a href="{{item.image.url}}" class="thumbnail" target="_blank">
+                  <img src="{{item.image.url}}" class="img-responsive">
+                </a>
+                <!-- {% load cloudinary %}
+                {% cloudinary item.image quality='auto' width=100 height=100 crop='pad' %} -->
+              </div>
+              
               <p>{{item.description}}</p>
             </div>            
             <div class="col-6">
@@ -160,7 +124,13 @@
         <div class="card card-body">
           <div class="row">
             <div class="col-6">
-              <a href="{{item.image.url}}"><img src="{{item.image.url}}" class="list_image" /></a>
+              <div class="list_image">
+                <a href="{{item.image.url}}" class="thumbnail" target="_blank">
+                  <img src="{{item.image.url}}" class="img-responsive">
+                </a>
+                <!-- {% load cloudinary %}
+                {% cloudinary item.image quality='auto' width=100 height=100 crop='pad' %} -->
+              </div>
               <p>{{item.description}}</p>
             </div>            
             <div class="col-6">

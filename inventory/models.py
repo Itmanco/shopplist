@@ -2,6 +2,7 @@ from django.db import models
 from django.urls import reverse
 from django.utils.text import slugify
 from django.contrib.auth import get_user_model
+from cloudinary.models import CloudinaryField
 
 User = get_user_model()
 
@@ -70,7 +71,9 @@ class Item(models.Model):
     description = models.TextField(max_length=250,blank=True)
     slug = models.SlugField(max_length=255, unique=True)
     price = models.DecimalField(max_digits=7, decimal_places=2, default=0)
-    image = models.ImageField(upload_to='images/')
+    #  Remove to integrate with cloudinary
+    # image = models.ImageField(upload_to='images/')
+    image = CloudinaryField('image')
     webPage = models.URLField(max_length=100, blank=True, default='http://')
     store = models.CharField(max_length=100, blank=False)
     bought = models.CharField(max_length=10, default='False')

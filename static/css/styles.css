@@ -81,3 +81,9 @@ p {
   padding: 0.5%;
   border: 0;
 }
+
+.img-responsive {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}

@@ -6,7 +6,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views import generic
 from django.urls import reverse_lazy
-import os
+import cloudinary.api
 
 
 def welcome(request):
@@ -74,12 +74,16 @@ class UpdateItem(LoginRequiredMixin, generic.UpdateView):
 
 @login_required(login_url='my-login')
 def DeleteList(request,list_slug):
-    # Delete items images
+    # # Delete items images
+    # items =  list(Item.objects.filter(itemsList__slug=list_slug))
+    # for item in items:
+    #     imageloc = item.image.path
+    #     if os.path.isfile(imageloc):
+    #          os.remove(imageloc)
+    # Delete images using cloudinary
     items =  list(Item.objects.filter(itemsList__slug=list_slug))
     for item in items:
-        imageloc = item.image.path
-        if os.path.isfile(imageloc):
-             os.remove(imageloc)
+        cloudinary.api.delete_resources(item.image, resource_type="image", type="upload")
     # Delete Item
     ItemsList.objects.filter(slug=list_slug).delete()
     all_Lists = ItemsList.objects.filter(user=request.user)
@@ -90,11 +94,13 @@ def DeleteList(request,list_slug):
 
 @login_required(login_url='my-login')
 def DeleteItem(request, itempk,list_slug):
-    # Delete image
+    # # Delete image
     item =  Item.objects.get(id=itempk)
-    imageloc = item.image.path
-    if os.path.isfile(imageloc):
-        os.remove(imageloc)
+    imageloc = item.image
+    # if os.path.isfile(imageloc):
+    #     os.remove(imageloc)
+    # Delete image from cloudinary
+    cloudinary.api.delete_resources(imageloc, resource_type="image", type="upload")
     # Delete Item
     Item.objects.filter(id=itempk).delete()   
 
