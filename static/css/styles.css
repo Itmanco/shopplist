@@ -7,7 +7,8 @@
 }
 
 .text-responsive-list {
-  font-size: calc(15% + 1vw + 1vh);
+  font-size: calc(70% + 1vw);
+  min-width: 290px;
 }
 
 p {
