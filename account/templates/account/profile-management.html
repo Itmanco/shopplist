@@ -11,7 +11,7 @@
 </style>
 
 <body>
-  <div class="container bg-white shadow-md p-5 form-layout">
+  <div class="container bg-white shadow-md p-5 mt-4 form-layout">
     <h3>
       <i class="fa fa-address-book" aria-hidden="true"></i>&nbsp; Profile
       management
@@ -23,7 +23,9 @@
     <hr />
     <br />
     <form method="POST" autocomplete="off">
-      {% csrf_token %} {{user_form.username|as_crispy_field}}<br />
+      {% csrf_token %} {{user_form.username|as_crispy_field}}<br /><br />
+      {{user_form.first_name|as_crispy_field}}<br />
+      {{user_form.last_name|as_crispy_field}}<br /><br />
       {{user_form.email|as_crispy_field}}
 
       <br />

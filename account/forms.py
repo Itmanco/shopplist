@@ -8,7 +8,7 @@ class CreateUserForm(UserCreationForm):
 
     class Meta:
         model = User
-        fields = ['username', 'email', 'password1', 'password2']
+        fields = ['username', 'email',  'first_name', 'last_name','password1', 'password2']
 
 
     def __init__(self, *args, **kwargs):
@@ -41,7 +41,7 @@ class UpdateUserForm(forms.ModelForm):
     class Meta:
         model = User
 
-        fields = ['username', 'email']
+        fields = ['username', 'email','first_name','last_name']
         exclude = ['password1', 'password2']
 
     def __init__(self, *args, **kwargs):

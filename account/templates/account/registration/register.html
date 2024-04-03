@@ -15,13 +15,15 @@
   <div class="container bg-white shadow-md p-5 form-layout">
     <h3>Create your account</h3>
     <hr />
-    <h5>You can start using our app today today!</h5>
+    <h5>You can start using our app today!</h5>
 
     <br />
     <br />
 
     <form method="POST" autocomplete="off">
-      {% csrf_token %} {{form.username|as_crispy_field}}<br />
+      {% csrf_token %} {{form.username|as_crispy_field}}<br /><br />
+      {{form.first_name|as_crispy_field}}<br />
+      {{form.last_name|as_crispy_field}}<br /><br />
       {{form.email|as_crispy_field}}<br />
       {{form.password1|as_crispy_field}} {{form.password2|as_crispy_field}}
 
