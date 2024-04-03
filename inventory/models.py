@@ -50,7 +50,9 @@ class ItemsList(models.Model):
         return len(entry_list)
 
     def get_guests_len(self):
-        return 0
+        items = Guest.objects.filter(itemsList__id=self.id)
+        guests = list(items)
+        return len(guests)
 
     def get_slug(self):
         slug = slugify(self.name)
@@ -63,7 +65,6 @@ class ItemsList(models.Model):
 
         return unique_slug
     
-
 class Item(models.Model):
     itemsList = models.ForeignKey(ItemsList, related_name='items', on_delete=models.CASCADE, null=True)
     title = models.CharField(max_length=100)
@@ -103,3 +104,38 @@ class Item(models.Model):
     
     def get_absolute_url(self):
         return reverse('list-items', kwargs={'list_slug': self.itemsList.slug})
+
+class Guest(models.Model):
+    user = models.ForeignKey(User, related_name='listguests', on_delete=models.CASCADE)
+    itemsList = models.ForeignKey(ItemsList, related_name='guestsbylist', on_delete=models.CASCADE)
+    """
+        Permit_level have 3 levels for a guest:
+        R = Can watch pictures and read
+        C = R + can add new items
+        I = C + can remove.
+    """
+    permit_level = models.CharField(max_length=1, verbose_name="allow",  null=False, blank=False, default="R")
+
+    def __str__(self):
+        level = "Allow: Read list items."
+        match self.permit_level:
+            case "C":
+                level = "Allow: Add new items to the list."
+            case "I":
+                level = "Allow: Create, Update and Delete items in the list."
+
+        return self.user.username + "\n"+level
+
+    def get_level_description(self):
+        level = "Read"
+        match self.permit_level:
+            case "C":
+                level = "Read, Create."
+            case "I":
+                level = "Create, Read, Delete Items."
+
+        return level
+
+
+    class Meta:
+        unique_together = ('user', 'itemsList')
