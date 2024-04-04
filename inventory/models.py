@@ -49,10 +49,10 @@ class ItemsList(models.Model):
         entry_list = list(items)
         return len(entry_list)
 
-    def get_guests_len(self):
+    def get_guests(self):
         items = Guest.objects.filter(itemsList__id=self.id)
         guests = list(items)
-        return len(guests)
+        return guests
 
     def get_slug(self):
         slug = slugify(self.name)

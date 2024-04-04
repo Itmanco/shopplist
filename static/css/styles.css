@@ -1,14 +1,10 @@
-.base_main {
+.main_container {
+  min-width: 300px;
   justify-content: space-evenly;
-}
-
-.text-responsive-table {
-  font-size: calc(25% + 1vw + 1vh);
 }
 
 .text-responsive-list {
   font-size: calc(55% + 1vw);
-  min-width: 290px;
 }
 
 p {
@@ -54,23 +50,12 @@ p {
   padding-left: 1px;
 }
 
-/* .form__btn__CRUD {
-  transform: translateX(0.5rem);
-  background-color: var(--color-dark--2);
-  border-radius: 9px;
-  border: 0;
-  width: min-content;
-  padding: 0.5rem;
-  color: #555;
-} */
-
 .btn_item_CRUD {
   font-size: small;
   padding: 0;
   padding-right: 0.6rem;
   padding-left: 0.6rem;
   margin-top: 20px;
-  opacity: 0.8;
   position: relative;
   top: 10px;
   left: 180%;
