@@ -15,9 +15,9 @@
         <div class="col"><h2>Guests to {{listItem.name}}</h2>
     </div>
 
-    <div class="row mt-5">
-        <div class="col-5">
-            <h3>Users</h3>            
+    <div class="row mt-3 justify-content-center">
+        <div class="col-4 p-0">
+            <h4>Users</h4>            
             <div class="list-group" id="list-tab" role="tablist">
               {% if users|length > 0  %}
                 {% for user in users %}
@@ -29,12 +29,12 @@
               
             </div>
         </div>
-        <div class="col-2 mt-5">
-            <a href="#" class="btn btn-outline-secondary">Invite</a>
-            <a href="#" class="btn btn-outline-secondary">Remove</a>
+        <div class="col-3 mt-5 p-1">
+            <a href="#" class="btn btn-outline-secondary btn_list_item_bottom">Invite</a>
+            <a href="#" class="btn btn-outline-secondary btn_list_item_bottom">Remove</a>
         </div>
-        <div class="col-5">  
-            <h3>Guests</h3>           
+        <div class="col-4 p-0">  
+            <h4>Guests</h4>           
             <div class="list-group" id="list-tab-guests" role="tablist">
               {% if guests|length > 0  %}
                 {% for guest in guests %}
