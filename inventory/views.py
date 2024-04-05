@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from . models import ItemsList, Item
+from . models import ItemsList, Item, Guest
 from .forms import ItemForm, ListitemForm
 from django.shortcuts import get_object_or_404
 from django.contrib.auth.decorators import login_required
@@ -7,6 +7,8 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views import generic
 from django.urls import reverse_lazy
 import cloudinary.api
+from django.contrib.auth import get_user_model
+User = get_user_model()
 
 
 def welcome(request):
@@ -23,7 +25,7 @@ def inventory(request):
 @login_required(login_url='my-login')
 def list_items(request, list_slug):
 
-    context = _listViewContext(list_slug)    
+    context = _listViewContext(request, list_slug)    
              
     return render(request, 'inventory/list-items.html', context)
 
@@ -93,6 +95,25 @@ def DeleteList(request,list_slug):
     return render(request, 'inventory/inventory.html', context=context)
 
 @login_required(login_url='my-login')
+def GuestsList(request,list_slug):
+    listItem = ItemsList.objects.get(slug=list_slug)
+    guests =  list(Guest.objects.filter(itemsList__slug=list_slug))
+    users = list(User.objects.all().exclude(id=request.user.id))
+
+    # removing user that already exists in the guests list
+    for value in guests:
+        users.remove(value.user)
+
+
+    context = {
+        'listItem':listItem,
+        'guests':guests,
+        'users':users
+    }
+    print(context)
+    return render(request, 'inventory/_guests.html', context=context)
+
+@login_required(login_url='my-login')
 def DeleteItem(request, itempk,list_slug):
     # # Delete image
     item =  Item.objects.get(id=itempk)
@@ -104,7 +125,7 @@ def DeleteItem(request, itempk,list_slug):
     # Delete Item
     Item.objects.filter(id=itempk).delete()   
 
-    context = _listViewContext(list_slug)    
+    context = _listViewContext(request, list_slug)    
              
     return render(request, 'inventory/list-items.html', context)
 
@@ -116,7 +137,7 @@ def MarkBoughtItem(request, itempk,list_slug):
 
     item.update(bought = 'True')  
 
-    context = _listViewContext(list_slug)    
+    context = _listViewContext(request, list_slug)    
              
     return render(request, 'inventory/list-items.html', context)
 
@@ -128,13 +149,13 @@ def ReturnItemToList(request, itempk,list_slug):
 
     item.update(bought = 'False')  
 
-    context = _listViewContext(list_slug)    
+    context = _listViewContext(request, list_slug)    
              
     return render(request, 'inventory/list-items.html', context)
 
 
     # prepares the list-items view context and return it
-def _listViewContext(list_slug):
+def _listViewContext(request,list_slug):
     itemsList = get_object_or_404(ItemsList, slug=list_slug)
     items = Item.objects.filter(itemsList=itemsList).filter(bought='False')
     boughtItems = Item.objects.filter(itemsList=itemsList).filter(bought='True')
@@ -142,6 +163,8 @@ def _listViewContext(list_slug):
     boughtItemsLen = len(boughtItems)
     itemsLen = len(items)
     balance = sum(items.values_list("price", flat=True))
+    isListOwner = itemsList.user == request.user
+    print(isListOwner)
     return {
         'itemsList':itemsList, 
         'items':items, 
@@ -149,5 +172,6 @@ def _listViewContext(list_slug):
         'itemsLen':itemsLen, 
         'boughtItems':boughtItems, 
         'boughtItemsLen':boughtItemsLen,
-        'spent':spent
+        'spent':spent,
+        'isListOwner':isListOwner,
         }

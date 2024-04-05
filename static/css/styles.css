@@ -69,8 +69,8 @@ p {
 
 .btn_list_item_bottom {
   font-size: small;
-  padding-left: 5%;
-  padding-right: 5%;
+  padding-left: 10px;
+  padding-right: 10px;
 }
 
 .img-responsive {

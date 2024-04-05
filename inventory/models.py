@@ -54,6 +54,7 @@ class ItemsList(models.Model):
         guests = list(items)
         return guests
 
+
     def get_slug(self):
         slug = slugify(self.name)
         unique_slug = slug

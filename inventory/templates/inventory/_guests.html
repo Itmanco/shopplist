@@ -1,0 +1,62 @@
+<!-- prettier-ignore -->
+{% extends "./base.html" %}
+{% load static %} 
+{% block content %}
+<!-- Introduction section -->
+<style>
+  body {
+    background-color: grey;
+  }
+</style>
+<body>
+  <br />
+  <div class="container bg-white shadow-md p-4">
+    <div class="fw-bold pb-2">
+        <div class="col"><h2>Guests to {{listItem.name}}</h2>
+    </div>
+
+    <div class="row mt-5">
+        <div class="col-5">
+            <h3>Users</h3>            
+            <div class="list-group" id="list-tab" role="tablist">
+              {% if users|length > 0  %}
+                {% for user in users %}
+                <a class="list-group-item list-group-item-action" id="list-{{user.username}}" data-bs-toggle="list" href="#list-{{user.username}}" role="tab" aria-controls="list-{{user.username}}">{{user.username}}</a>
+                {% endfor %}
+              {% else %}
+                <p class="p-2">No users available</p>
+              {% endif %}
+              
+            </div>
+        </div>
+        <div class="col-2 mt-5">
+            <a href="#" class="btn btn-outline-secondary">Invite</a>
+            <a href="#" class="btn btn-outline-secondary">Remove</a>
+        </div>
+        <div class="col-5">  
+            <h3>Guests</h3>           
+            <div class="list-group" id="list-tab-guests" role="tablist">
+              {% if guests|length > 0  %}
+                {% for guest in guests %}
+                <a class="list-group-item list-group-item-action" id="list-guest-{{guest.user.username}}" data-bs-toggle="list" href="#list-guest-{{guest.user.username}}" role="tab" aria-controls="list-guest-{{guest.user.username}}">{{guest.user.username}}</a>
+                {% endfor %}
+              {% else %}
+                <p class="p-2">There are no registered guests</p>
+              {% endif %}
+            </div>
+        </div>
+    </div>
+
+    <div class="row  pt-4">
+        <div class="col">
+            <a href="{{listItem.get_items_url}}" class="btn btn-outline-secondary btn_list_item_bottom">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-return-left"
+                  viewBox="0 0 16 16">
+                  <path fill-rule="evenodd" d="M14.5 1.5a.5.5 0 0 1 .5.5v4.8a2.5 2.5 0 0 1-2.5 2.5H2.707l3.347 3.346a.5.5 0 0 1-.708.708l-4.2-4.2a.5.5 0 0 1 0-.708l4-4a.5.5 0 1 1 .708.708L2.707 8.3H12.5A1.5 1.5 0 0 0 14 6.8V2a.5.5 0 0 1 .5-.5"/>
+                </svg>&nbsp;Back</a>
+        </div>        
+    </div>
+    
+  </div>
+</body>
+{% endblock %}

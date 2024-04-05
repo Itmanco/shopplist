@@ -169,10 +169,11 @@
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-return-left"
               viewBox="0 0 16 16">
               <path fill-rule="evenodd" d="M14.5 1.5a.5.5 0 0 1 .5.5v4.8a2.5 2.5 0 0 1-2.5 2.5H2.707l3.347 3.346a.5.5 0 0 1-.708.708l-4.2-4.2a.5.5 0 0 1 0-.708l4-4a.5.5 0 1 1 .708.708L2.707 8.3H12.5A1.5 1.5 0 0 0 14 6.8V2a.5.5 0 0 1 .5-.5"/>
-            </svg>&nbsp;Back</a>        
+            </svg>&nbsp;Back</a>
         </div>
-        <div class="col-8 col-auto me-auto">
-          <button type="button" class="btn btn-outline-secondary position-relative me-2 btn_list_item_bottom">
+        <div class="col-8 col-auto me-auto">          
+          {% if isListOwner %}                  
+          <a class="btn btn-outline-secondary position-relative me-2 btn_list_item_bottom" href="{% url 'guests_list' list_slug=itemsList.slug %}">
             Guests
             {% if itemsList.get_guests|length > 0 %}
             <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-success">
@@ -180,7 +181,8 @@
               <span class="visually-hidden">guests in the list</span>
             </span>
             {% endif %}
-          </button>
+          </a>
+          {% endif %}
           <a href="{% url 'delete_list' list_slug=itemsList.slug %}" onclick="return confirm('you are about to delete the {{itemsList.name}} list, do you want to continue?')" class="btn btn-outline-warning btn_list_item_bottom">
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
               <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0z"/>
