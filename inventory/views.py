@@ -85,7 +85,8 @@ def DeleteList(request,list_slug):
     # Delete images using cloudinary
     items =  list(Item.objects.filter(itemsList__slug=list_slug))
     for item in items:
-        cloudinary.api.delete_resources(item.image, resource_type="image", type="upload")
+        if item.image:
+            cloudinary.api.delete_resources(item.image, resource_type="image", type="upload")
     # Delete Item
     ItemsList.objects.filter(slug=list_slug).delete()
     all_Lists = ItemsList.objects.filter(user=request.user)
