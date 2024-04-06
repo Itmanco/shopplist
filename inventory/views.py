@@ -116,12 +116,15 @@ def GuestsList(request,list_slug):
 @login_required(login_url='my-login')
 def DeleteItem(request, itempk,list_slug):
     # # Delete image
+    
     item =  Item.objects.get(id=itempk)
-    imageloc = item.image
-    # if os.path.isfile(imageloc):
-    #     os.remove(imageloc)
-    # Delete image from cloudinary
-    cloudinary.api.delete_resources(imageloc, resource_type="image", type="upload")
+    if item.image:
+        imageloc = item.image
+        print('Image-->>',item.image)
+        # if os.path.isfile(imageloc):
+        #     os.remove(imageloc)
+        # Delete image from cloudinary
+        cloudinary.api.delete_resources(imageloc, resource_type="image", type="upload")
     # Delete Item
     Item.objects.filter(id=itempk).delete()   
 
@@ -164,7 +167,6 @@ def _listViewContext(request,list_slug):
     itemsLen = len(items)
     balance = sum(items.values_list("price", flat=True))
     isListOwner = itemsList.user == request.user
-    print(isListOwner)
     return {
         'itemsList':itemsList, 
         'items':items, 

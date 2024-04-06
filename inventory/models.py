@@ -68,16 +68,16 @@ class ItemsList(models.Model):
     
 class Item(models.Model):
     itemsList = models.ForeignKey(ItemsList, related_name='items', on_delete=models.CASCADE, null=True)
-    title = models.CharField(max_length=100)
-    brand = models.CharField(max_length=100)
+    title = models.CharField(max_length=100,blank=False)
+    brand = models.CharField(max_length=100,blank=True)
     description = models.TextField(max_length=250,blank=True)
     slug = models.SlugField(max_length=255, unique=True)
     price = models.DecimalField(max_digits=7, decimal_places=2, default=0)
     #  Remove to integrate with cloudinary
     # image = models.ImageField(upload_to='images/')
-    image = CloudinaryField('image')
-    webPage = models.URLField(max_length=100, blank=True, default='http://')
-    store = models.CharField(max_length=100, blank=False)
+    image = CloudinaryField('image',blank=True)
+    webPage = models.URLField(max_length=100, blank=True)
+    store = models.CharField(max_length=100, blank=True)
     bought = models.CharField(max_length=10, default='False')
 
     # class Meta:
