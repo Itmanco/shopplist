@@ -20,8 +20,8 @@
             <h4>Users</h4>            
             <div class="list-group" id="list-tab-users" role="tablist">
               {% if users|length > 0  %}
-                {% for user in users %}
-                <a class="list-group-item list-group-item-action btn-outline-success" id="list-{{user.username}}" data-bs-toggle="list" href="#list-users" role="tab" aria-controls="list-users">{{user.username}}</a>
+                {% for user in users %}               
+                <a class="list-group-item list-group-item-action" onclick="guests_userElementSelected(this)" id="list-{{user.id}}" data-listslug="{{listItem.slug}}">{{user.username}}</a>
                 {% endfor %}
               {% else %}
                 <p class="p-2">No users available</p>
@@ -31,22 +31,18 @@
         </div>
         <div class="col-3 mt-5 p-1">
           <div class="tab-content" id="nav-tabContent">
-
-            <div class="tab-pane fade" id="list-users" role="tabpanel" aria-labelledby="list-tab-users">
-              <a href="#" class="btn btn-outline-secondary btn_list_item_bottom">Invite</a>
+            <div class="tab-pane fade text-center" id="list-users" role="tabpanel" aria-labelledby="list-tab-users">
             </div>
-
-            <div class="tab-pane fade" id="list-guests" role="tabpanel" aria-labelledby="list-home-list">
-              <a href="#" class="btn btn-outline-secondary btn_list_item_bottom">Remove</a>
+            <div class="tab-pane fade text-center" id="list-guests" role="tabpanel" aria-labelledby="list-home-list">
             </div> 
           </div>
         </div>
-        <div class="col-4 p-0">  
-            <h4>Guests</h4>           
+        <div class="col-4 p-0">
+            <h4>Guests</h4>
             <div class="list-group" id="list-tab-guests" role="tablist">
               {% if guests|length > 0  %}
                 {% for guest in guests %}
-                <a class="list-group-item list-group-item-action" id="list-guest-{{guest.user.username}}" data-bs-toggle="list" href="#list-guests" role="tab" aria-controls="list-guests">{{guest.user.username}}</a>
+                <a class="list-group-item list-group-item-action" id="list-guest-{{guest.user.id}}" onclick="guests_guestlementSelected(this)" data-listslug="{{listItem.slug}}">{{guest.user.username}}</a>
                 {% endfor %}
               {% else %}
                 <p class="p-2">There are no registered guests</p>
@@ -63,8 +59,7 @@
                   <path fill-rule="evenodd" d="M14.5 1.5a.5.5 0 0 1 .5.5v4.8a2.5 2.5 0 0 1-2.5 2.5H2.707l3.347 3.346a.5.5 0 0 1-.708.708l-4.2-4.2a.5.5 0 0 1 0-.708l4-4a.5.5 0 1 1 .708.708L2.707 8.3H12.5A1.5 1.5 0 0 0 14 6.8V2a.5.5 0 0 1 .5-.5"/>
                 </svg>&nbsp;Back</a>
         </div>        
-    </div>
-    
+    </div>    
   </div>
 </body>
 {% endblock %}

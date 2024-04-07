@@ -96,6 +96,57 @@ def DeleteList(request,list_slug):
     return render(request, 'inventory/inventory.html', context=context)
 
 @login_required(login_url='my-login')
+def GuestsListRemove(request,list_slug,userpk):
+
+    print('It is at -->GuestsListRemove<--')
+    # removing selected guest
+    Guest.objects.filter(user__id=userpk).delete()  
+
+    listItem = ItemsList.objects.get(slug=list_slug)
+    guests =  list(Guest.objects.filter(itemsList__slug=list_slug))
+ 
+    users = list(User.objects.all().exclude(id=request.user.id))
+
+    # removing user that already exists in the guests list
+    for value in guests:
+        users.remove(value.user)
+
+
+    context = {
+        'listItem':listItem,
+        'guests':guests,
+        'users':users
+    }
+    print(context)
+    return render(request, 'inventory/_guests.html', context=context)
+
+@login_required(login_url='my-login')
+def GuestsListAdd(request,list_slug,userpk):
+
+    print('It is at -->GuestsListAdd<--')
+    # Adding selected guest
+    user = User.objects.get(id=userpk)
+    listItem = ItemsList.objects.get(slug=list_slug)
+    Guest.objects.create(user=user, itemsList = listItem) 
+
+    guests =  list(Guest.objects.filter(itemsList__slug=list_slug)) 
+    users = list(User.objects.all().exclude(id=request.user.id))
+
+    # removing user that already exists in the guests list
+    for value in guests:
+        users.remove(value.user)
+
+
+    context = {
+        'listItem':listItem,
+        'guests':guests,
+        'users':users
+    }
+    print(context)
+    return render(request, 'inventory/_guests.html', context=context)
+
+
+@login_required(login_url='my-login')
 def GuestsList(request,list_slug):
     listItem = ItemsList.objects.get(slug=list_slug)
     guests =  list(Guest.objects.filter(itemsList__slug=list_slug))
