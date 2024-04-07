@@ -56,6 +56,27 @@
       </div>
       {% endfor %}
     </div>
+    <br />
+    {% if invitations|length > 0 %}
+    <hr />
+    <p>You are invited to share the following lists:</p>
+    <div class="row">
+      {% for item in invitations %}
+      <div class="col-5 table_lists_item_name">
+        <a href="{{item.itemsList.get_items_url}}"
+          >{{item.itemsList.name|capfirst}}</a
+        >
+      </div>
+      <div class="col-3 table_lists_item">
+        ¥{{item.itemsList.get_balance|floatformat:"-3g"}}
+      </div>
+      <div class="col-2 table_lists_item">{{item.itemsList.get_items_len}}</div>
+      <div class="col-2 table_lists_item">
+        ¥{{item.itemsList.get_spent|floatformat:"-3g"}}
+      </div>
+      {% endfor %}
+    </div>
+    {% endif %}
   </div>
 </body>
 {% endblock %}

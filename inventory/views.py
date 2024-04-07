@@ -17,8 +17,10 @@ def welcome(request):
 @login_required(login_url='my-login')
 def inventory(request):
     all_Lists = ItemsList.objects.filter(user=request.user)
+    invitations = Guest.objects.filter(user=request.user)
     context = {
-        'my_Lists':all_Lists
+        'my_Lists':all_Lists,
+        'invitations':invitations
     }
     return render(request, 'inventory/inventory.html', context=context)
 
@@ -97,8 +99,6 @@ def DeleteList(request,list_slug):
 
 @login_required(login_url='my-login')
 def GuestsListRemove(request,list_slug,userpk):
-
-    print('It is at -->GuestsListRemove<--')
     # removing selected guest
     Guest.objects.filter(user__id=userpk).delete()  
 
@@ -117,13 +117,11 @@ def GuestsListRemove(request,list_slug,userpk):
         'guests':guests,
         'users':users
     }
-    print(context)
     return render(request, 'inventory/_guests.html', context=context)
 
 @login_required(login_url='my-login')
 def GuestsListAdd(request,list_slug,userpk):
 
-    print('It is at -->GuestsListAdd<--')
     # Adding selected guest
     user = User.objects.get(id=userpk)
     listItem = ItemsList.objects.get(slug=list_slug)
@@ -142,7 +140,6 @@ def GuestsListAdd(request,list_slug,userpk):
         'guests':guests,
         'users':users
     }
-    print(context)
     return render(request, 'inventory/_guests.html', context=context)
 
 
@@ -162,7 +159,6 @@ def GuestsList(request,list_slug):
         'guests':guests,
         'users':users
     }
-    print(context)
     return render(request, 'inventory/_guests.html', context=context)
 
 @login_required(login_url='my-login')
@@ -172,7 +168,6 @@ def DeleteItem(request, itempk,list_slug):
     item =  Item.objects.get(id=itempk)
     if item.image:
         imageloc = item.image
-        print('Image-->>',item.image)
         # if os.path.isfile(imageloc):
         #     os.remove(imageloc)
         # Delete image from cloudinary
