@@ -40,8 +40,6 @@
     </div>
    
       {% for item in items %}
-      <!-- version with collapse -->
-
       <a style="text-decoration: none;" data-bs-toggle="collapse" href="#collapseItem{{item.id}}" role="button" aria-expanded="false" aria-controls="collapseItem{{item.id}}">
         <ul class="list-group list-group-horizontal">
           <li class="list-group-item list_item_first">
@@ -107,60 +105,58 @@
           </li>
         </ul>
       </a>
-      <div class="collapse" id="collapseBoughtItems">
-      
-      {% for item in boughtItems %}
-      <!-- version with collapse -->
-
-      <a style="text-decoration: none;" data-bs-toggle="collapse" href="#collapseItem{{item.id}}" role="button" aria-expanded="false" aria-controls="collapseItem{{item.id}}">
-        <ul class="list-group list-group-horizontal">
-          <li class="list-group-item list_item_first">
-            <p>{{item.title}}</p>
-          </li>
-          <li class="list-group-item list_item_second">
-            <p>{{item.description|truncatechars:40}}</p>
-          </li>
-          <li class="list-group-item list_item_third">
-            <p>¥{{item.price|floatformat:"-3g"}}</p>
-          </li>
-        </ul>
-      </a>
-      <div class="collapse" id="collapseItem{{item.id}}">
-        <div class="card card-body">
-          <div class="row">
-            <div class="col-6">
-              <div class="list_image">
-                <a href="{{item.image.url}}" class="thumbnail" target="_blank">
-                  <img src="{{item.image.url}}" class="img-responsive">
-                </a>
-                <!-- {% load cloudinary %}
-                {% cloudinary item.image quality='auto' width=100 height=100 crop='pad' %} -->
+      <div class="collapse" id="collapseBoughtItems">      
+        {% for item in boughtItems %}
+        <a style="text-decoration: none;" data-bs-toggle="collapse" href="#collapseItem{{item.id}}" role="button" aria-expanded="false" aria-controls="collapseItem{{item.id}}">
+          <ul class="list-group list-group-horizontal">
+            <li class="list-group-item list_item_first">
+              <p>{{item.title}}</p>
+            </li>
+            <li class="list-group-item list_item_second">
+              <p>{{item.description|truncatechars:40}}</p>
+            </li>
+            <li class="list-group-item list_item_third">
+              <p>¥{{item.price|floatformat:"-3g"}}</p>
+            </li>
+          </ul>
+        </a>
+        <div class="collapse" id="collapseItem{{item.id}}">
+          <div class="card card-body">
+            <div class="row">
+              <div class="col-6">
+                <div class="list_image">
+                  <a href="{{item.image.url}}" class="thumbnail" target="_blank">
+                    <img src="{{item.image.url}}" class="img-responsive">
+                  </a>
+                  <!-- {% load cloudinary %}
+                  {% cloudinary item.image quality='auto' width=100 height=100 crop='pad' %} -->
+                </div>
+                <p>{{item.description}}</p>
+              </div>            
+              <div class="col-6">
+                <p>Price: &nbsp;¥{{item.price|floatformat:"-3g"}}</p>
+                <p>Store: &nbsp;{{item.store}}</p>
+                <p>Brand: &nbsp;{{item.brand}}</p>
+                {% if item.webPage != '' %}
+                <a
+                  href="{{item.webPage}}"
+                  class="btn btn-outline-secondary btn_list_item"
+                  >Link</a
+                >
+                {% endif %}
               </div>
-              <p>{{item.description}}</p>
-            </div>            
-            <div class="col-6">
-              <p>Price: &nbsp;¥{{item.price|floatformat:"-3g"}}</p>
-              <p>Store: &nbsp;{{item.store}}</p>
-              <p>Brand: &nbsp;{{item.brand}}</p>
-              {% if item.webPage != '' %}
-              <a
-                href="{{item.webPage}}"
-                class="btn btn-outline-secondary btn_list_item"
-                >Link</a
-              >
-              {% endif %}
             </div>
-          </div>
-          <div class="row">
-            <div class="col-2 btn-group">
-              <a href="{% url 'return_item' itempk=item.id list_slug=itemsList.slug %}" onclick="return confirm('Do you want return {{item.title}} to your shooping list?')" class="btn btn-outline-primary btn_item_CRUD">Return</a>
-              <a href="{% url 'update_item' pk=item.id %}" class="btn btn-outline-primary btn_item_CRUD">Update</a>
-              <a href="{% url 'delete_item' itempk=item.id list_slug=itemsList.slug %}" onclick="return confirm('Do you want to delete {{item.title}}')" class="btn btn-outline-primary btn_item_CRUD">Delete</a>
+            <div class="row">
+              <div class="col-2 btn-group">
+                <a href="{% url 'return_item' itempk=item.id list_slug=itemsList.slug %}" onclick="return confirm('Do you want return {{item.title}} to your shooping list?')" class="btn btn-outline-primary btn_item_CRUD">Return</a>
+                <a href="{% url 'update_item' pk=item.id %}" class="btn btn-outline-primary btn_item_CRUD">Update</a>
+                <a href="{% url 'delete_item' itempk=item.id list_slug=itemsList.slug %}" onclick="return confirm('Do you want to delete {{item.title}}')" class="btn btn-outline-primary btn_item_CRUD">Delete</a>
+              </div>
             </div>
           </div>
         </div>
+        {% endfor %}
       </div>
-      {% endfor %}
       {% endif %}
 
       <div class="row  pt-4">
@@ -190,7 +186,7 @@
             </svg>&nbsp;Delete</a>
         </div>
       </div>    
-    </div>    
+ 
   </div>  
 </body>
 {% endblock %}
