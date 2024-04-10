@@ -39,10 +39,10 @@ Create new user
 
 1. Confirm email address to activate account
 2. Login in the web App
-   ⋅⋅1.Shooping lists inventory (Create, Open)
-   ⋅⋅⋅1.Add items to the list (Create, Update, Remove)
-   ⋅⋅⋅2.Share your list with other users
-   ⋅⋅⋅3.Delete List
+   ⋅⋅1. Shooping lists inventory (Create, Open)
+   ⋅⋅⋅1. Add items to the list (Create, Update, Remove)
+   ⋅⋅⋅2. Share your list with other users
+   ⋅⋅⋅3. Delete List
 3. User account Management (Update, Delete)
 
 ## Activity Diagram
