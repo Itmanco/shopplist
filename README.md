@@ -1,16 +1,12 @@
-{% if False %}
-
 # Shoophon
 
 This project implements a portable shopping list app that allows the user to take note of most of the common product information and keep track of some basic calculations on the list of products like the quantity of items and balance.
 Also allows the owner of a list to share it with other users already registered in the web application.
 The project was implemented using Django 5.0.3
 
-![Default Home View](shoppingList\static\images\welcome.jpg?raw=true "Welcome")
+![Default Home](./shoppingList/static/images/welcome.jpg?raw=true "Welcome")
 
 ## Installation
-
-# Getting Started
 
 First clone the repository from Github and switch to the new directory:
 
