@@ -35,14 +35,7 @@ _ EMAIL_HOST_USER \* EMAIL_HOST_PASSWORD
 
 ## Use
 
-1. Create new user
-2. Confirm email address to activate account
-3. Login in the web App
-   ⋅⋅ Shooping lists inventory (Create, Open)
-   ⋅⋅⋅ Add items to the list (Create, Update, Remove)
-   ⋅⋅⋅ Share your list with other users
-   ⋅⋅⋅ Delete List
-4. User account Management (Update, Delete)
+![Default Use](./static/images/use.jpg?raw=true "Use")
 
 ## Activity Diagram
 
