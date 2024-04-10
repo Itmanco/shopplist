@@ -4,6 +4,8 @@ This project implements a portable shopping list app that allows the user to tak
 Also allows the owner of a list to share it with other users already registered in the web application.
 The project was implemented using Django 5.0.3
 
+The front end is implemented with Bootstrap to provide mobile support.
+
 ![Default Home](./static/images/welcome.jpg?raw=true "Welcome")
 
 ## Installation
@@ -34,12 +36,19 @@ _ EMAIL_HOST_USER \* EMAIL_HOST_PASSWORD
 ## Use
 
 Create new user
-&nbsp;Confirm email address to activate account
-&nbsp;Login in the web App
-&nbsp;&nbsp;Shooping lists inventory (Create, Open)
-&nbsp;&nbsp;&nbsp;Add items to the list (Create, Update, Remove)
-&nbsp;&nbsp;&nbsp;Share your list with other users
-&nbsp;&nbsp;&nbsp;Delete List
-&nbsp;User account Management (Update, Delete)
+
+1. Confirm email address to activate account
+2. Login in the web App
+   ⋅⋅1.Shooping lists inventory (Create, Open)
+   ⋅⋅⋅1.Add items to the list (Create, Update, Remove)
+   ⋅⋅⋅2.Share your list with other users
+   ⋅⋅⋅3.Delete List
+3. User account Management (Update, Delete)
+
+## Activity Diagram
+
+![Default Persistence](./static/images/activityDiagram.jpg?raw=true "Activity Diagram")
 
 ## persistence model
+
+![Default Persistence](./static/images/persistence.jpg?raw=true "Persistence Model")
