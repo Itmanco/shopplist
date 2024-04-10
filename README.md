@@ -4,7 +4,7 @@ This project implements a portable shopping list app that allows the user to tak
 Also allows the owner of a list to share it with other users already registered in the web application.
 The project was implemented using Django 5.0.3
 
-![Default Home](./shoppingList/static/images/welcome.jpg?raw=true "Welcome")
+![Default Home](./static/images/welcome.jpg?raw=true "Welcome")
 
 ## Installation
 
