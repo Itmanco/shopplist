@@ -149,7 +149,7 @@ def GuestsList(request,list_slug):
     guests =  list(Guest.objects.filter(itemsList__slug=list_slug))
     users = list(User.objects.all().exclude(id=request.user.id))
 
-    # removing user that already exists in the guests list
+    # removing users that already exists in the guests list
     for value in guests:
         users.remove(value.user)
 
