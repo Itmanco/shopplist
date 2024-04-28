@@ -6,15 +6,15 @@ The project was implemented using Django 5.0.3
 
 components used in this project:
  user login
-- [ ] email
-- [ ] persistence with sqlite
-- [ ] django (templates, forms)
-- [ ] bootstraps
-- [ ] crispy forms
-- [ ] Environment Variables
-- [ ] cloudinary
-- [ ] CSS
-- [ ] JavaScript
+- [x] email
+- [x] persistence with sqlite
+- [x] django (templates, forms)
+- [x] bootstraps
+- [x] crispy forms
+- [x] Environment Variables
+- [x] cloudinary
+- [x] CSS
+- [x] JavaScript
 
 
 ![Default Home](./static/images/welcome.jpg?raw=true "Welcome")
